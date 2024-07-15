@@ -16,7 +16,6 @@ public class TimesheetRepository {
   private final List<Timesheet> timesheets = new ArrayList<>();
 
   public Optional<Timesheet> getById(Long id) {
-    // select * from timesheets where id = $id
     return timesheets.stream()
       .filter(it -> Objects.equals(it.getId(), id))
       .findFirst();
@@ -32,12 +31,27 @@ public class TimesheetRepository {
     timesheets.add(timesheet);
     return timesheet;
   }
+  public List<Timesheet> getAllByPeriod(LocalDateTime createdAtBefore, LocalDateTime createdAtAfter) {
+    if (Objects.nonNull(createdAtBefore) && Objects.nonNull(createdAtAfter)) {
+      return timesheets.stream().filter(u -> u.getCreatedAt().isAfter(createdAtAfter))
+              .filter(u -> u.getCreatedAt().isBefore(createdAtBefore)).toList();
+    }
+    else return getAll();
+  }
+
 
   public void delete(Long id) {
     timesheets.stream()
       .filter(it -> Objects.equals(it.getId(), id))
       .findFirst()
       .ifPresent(timesheets::remove); // если нет - иногда посылают 404 Not Found
+  }
+
+
+  public List<Timesheet> findByProjectId(Long projectId) {
+    return timesheets.stream()
+            .filter(it -> Objects.equals(it.getProject().getId(), projectId))
+            .toList();
   }
 
 }

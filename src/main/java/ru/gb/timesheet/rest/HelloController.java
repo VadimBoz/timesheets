@@ -1,4 +1,4 @@
-package ru.gb.timesheet.controller;
+package ru.gb.timesheet.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +18,6 @@ public class HelloController {
   // GET http://localhost:8080/hello/alex
   @GetMapping("/hello/{username}")
   public String helloPagePathVariable(@PathVariable String username) {
-
     return "<h1>Hello, " + username + "!</h1>";
   }
 
