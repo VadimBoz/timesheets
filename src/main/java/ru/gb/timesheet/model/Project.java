@@ -1,23 +1,22 @@
 package ru.gb.timesheet.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+
+@Data
+@Entity
+@Table(name = "project")
 public class Project {
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @EqualsAndHashCode.Include
+    private Long id;
+
     private String name;
 
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

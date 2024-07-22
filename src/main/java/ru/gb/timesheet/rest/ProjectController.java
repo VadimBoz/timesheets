@@ -15,26 +15,26 @@ import java.util.NoSuchElementException;
 @RequestMapping("/projects")
 public class ProjectController {
 
-  private final ProjectService service;
+  private final ProjectService projectService;
   private final TimesheetService timesheetService;
 
-  public ProjectController(ProjectService service, TimesheetService timesheetService) {
+  public ProjectController(ProjectService projectService, TimesheetService timesheetService) {
 
-    this.service = service;
+    this.projectService = projectService;
     this.timesheetService = timesheetService;
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<Project> get(@PathVariable Long id) {
-    return service.getById(id)
+    return projectService.findById(id)
       .map(ResponseEntity::ok)
       .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
-  @GetMapping("/{id}/timesheets")
+  @GetMapping(value = {"/{id}/timesheets", "/{id}/timesheets/"})
   public ResponseEntity<List<Timesheet>> getTimesheets(@PathVariable Long id) {
     try {
-      return ResponseEntity.ok(service.getTimesheets(id));
+      return ResponseEntity.ok(projectService.getTimesheets(id));
     } catch (NoSuchElementException e) {
       return ResponseEntity.notFound().build();
     }
@@ -42,22 +42,18 @@ public class ProjectController {
 
   @GetMapping
   public ResponseEntity<List<Project>> getAll() {
-    return ResponseEntity.ok(service.getAll());
+    return ResponseEntity.ok(projectService.getAll());
   }
 
   @PostMapping
   public ResponseEntity<Project> create(@RequestBody Project project) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(service.create(project));
+    return ResponseEntity.status(HttpStatus.CREATED).body(projectService.create(project));
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> delete(@PathVariable Long id) {
-    boolean isPresentTimesheet = timesheetService.getAll().stream().anyMatch(u -> u.getProject().getId() == id);
-    if (!isPresentTimesheet) {
-      service.delete(id);
-      return ResponseEntity.noContent().build();
-    }
-    return new ResponseEntity<>("project  is present in timesheets", HttpStatus.CONFLICT);
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    projectService.delete(id);
+    return ResponseEntity.noContent().build();
   }
 
 }

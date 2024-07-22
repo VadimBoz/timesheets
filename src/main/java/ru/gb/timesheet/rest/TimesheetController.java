@@ -47,7 +47,7 @@ public class TimesheetController {
     @RequestParam(required = false) LocalDateTime createdAtBefore,
     @RequestParam(required = false) LocalDateTime createdAtAfter
   ) {
-    return ResponseEntity.ok(service.getAllByPeriod(createdAtBefore, createdAtAfter));
+    return ResponseEntity.ok(service.findAll(createdAtBefore, createdAtAfter));
   }
 
   // client -> [spring-server -> ... -> TimesheetController

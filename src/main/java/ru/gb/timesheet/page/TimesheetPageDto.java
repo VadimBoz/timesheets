@@ -12,6 +12,7 @@ public class TimesheetPageDto {
   private String projectName;
   private String projectId;
   private String id;
+  private String listPersonName;
   private String minutes;
   private String createdAt;
 

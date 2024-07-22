@@ -23,7 +23,7 @@ public class ProjectPageServise {
     }
 
     public Optional<ProjectPageDto> findById(Long id) {
-        return projectService.getById(id).map(this::convert);
+        return projectService.findById(id).map(this::convert);
     }
 
     private ProjectPageDto convert(Project project) {

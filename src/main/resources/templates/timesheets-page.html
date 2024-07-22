@@ -24,8 +24,9 @@
 <table>
     <thead>
     <tr>
-        <th>Идентификатор записи</th>
+        <th>ID записи</th>
         <th>Проект</th>
+        <th>Участники проекта</th>
         <th>Минут потрачено</th>
         <th>Дата записи</th>
         <th>Перейти к записи</th>
@@ -35,6 +36,7 @@
     <tr  th:each="timesheet : ${timesheets}">
         <td><span th:text="${timesheet.id}"></span></td>
         <td><span th:text="${timesheet.projectName}"></span></td>
+        <td><span th:text="${timesheet.listPersonName}"></span></td>
         <td><span th:text="${timesheet.minutes}"></span></td>
         <td><span th:text="${timesheet.createdAt}"></span></td>
         <td><a th:href="@{'/home/timesheets/{id}'(id=${timesheet.id})}">Перейти к записи</a></td>

@@ -10,6 +10,7 @@
 <body>
 <h1>Запись рабочего времени #<span th:text="${timesheet.id}"></span></h1>
 Проект: <a th:href="@{'/home/projects/{id}'(id=${timesheet.projectId})}"><span th:text="${timesheet.projectName}"></span></a> <br>
+В проекте учавствуют: <span th:text="${timesheet.listPersonName}"></span> <br>
 Минут потрачено: <span th:text="${timesheet.minutes}"></span> <br>
 Дата создания: <span th:text="${timesheet.createdAt}"></span> <br>
 

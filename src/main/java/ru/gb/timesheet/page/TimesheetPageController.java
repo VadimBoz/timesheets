@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/home/timesheets")
+@RequestMapping(value = {"/home/timesheets","/home/timesheets/"} )
 @RequiredArgsConstructor
 public class TimesheetPageController {
 
