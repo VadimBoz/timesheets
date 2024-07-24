@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice(basePackageClasses = ExceptionController.class)
 public class ExceptionController {
 
-  @ExceptionHandler(Exception.class)
+//  @ExceptionHandler(Exception.class)
   public ResponseEntity<ExceptionResponse> handleException(Exception e) {
     ExceptionResponse exceptionResponse = new ExceptionResponse();
     exceptionResponse.setReason(e.getMessage());
@@ -23,8 +23,10 @@ public class ExceptionController {
   }
 
   @ExceptionHandler(NoSuchElementException.class)
-  public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException e) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+  public ResponseEntity<ExceptionResponse> handleNoSuchElementException(NoSuchElementException e) {
+    ExceptionResponse exceptionResponse = new ExceptionResponse();
+    exceptionResponse.setReason(e.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
   }
 
 }

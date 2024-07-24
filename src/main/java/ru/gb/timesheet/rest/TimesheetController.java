@@ -1,6 +1,10 @@
 package ru.gb.timesheet.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +38,19 @@ public class TimesheetController {
     this.service = service;
   }
 
-  @Operation(summary = "Get timesheets on id", description = "Get timesheetson id ")
+  @Operation(summary = "Get timesheets on id", description = "Get timesheetson id ",
+          responses = {
+          @ApiResponse(description = "успешное выполнение", responseCode = "200", content = @Content(schema = @Schema(implementation = Timesheet.class))),
+          @ApiResponse(description = "неудачное выполнение", responseCode = "404", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+          @ApiResponse(description = "неудачное выполнение", responseCode = "500", content = @Content(schema = @Schema(implementation = Void.class))),
+          })
   @GetMapping("/{id}")
-  public ResponseEntity<Timesheet> get(@PathVariable Long id) {
-    return service.getById(id)
-      .map(ResponseEntity::ok)
-      .orElseGet(() -> ResponseEntity.notFound().build());
+  public ResponseEntity<Timesheet> get(@Parameter(description = "id проекта") @PathVariable Long id) {
+    Timesheet timesheet = service.getById(id)
+            .orElseThrow(() -> new NoSuchElementException("элемент не найден"));
+    return ResponseEntity.ok(timesheet);
+//      .map(ResponseEntity::ok)
+//      .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   // /timesheets
