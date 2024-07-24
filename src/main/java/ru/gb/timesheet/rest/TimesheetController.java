@@ -1,5 +1,7 @@
 package ru.gb.timesheet.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Tag(name = "timesheets", description = "timesheets")
 @RestController
 @RequestMapping("/timesheets")
 public class TimesheetController {
@@ -31,7 +34,8 @@ public class TimesheetController {
     this.service = service;
   }
 
-  @GetMapping("/{id}") // получить все
+  @Operation(summary = "Get timesheets on id", description = "Get timesheetson id ")
+  @GetMapping("/{id}")
   public ResponseEntity<Timesheet> get(@PathVariable Long id) {
     return service.getById(id)
       .map(ResponseEntity::ok)
@@ -42,6 +46,7 @@ public class TimesheetController {
   // /timesheets?createdAtBefore=2024-07-09
   // /timesheets?createdAtAfter=2024-07-15
   // /timesheets?createdAtAfter=2024-07-15&createdAtBefore=2024-06-05
+  @Operation(summary = "Get all timesheets", description = "Get all timesheets")
   @GetMapping
   public ResponseEntity<List<Timesheet>> getAll(
     @RequestParam(required = false) LocalDateTime createdAtBefore,

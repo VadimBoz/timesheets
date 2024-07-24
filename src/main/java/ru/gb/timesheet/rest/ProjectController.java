@@ -1,5 +1,8 @@
 package ru.gb.timesheet.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +13,7 @@ import ru.gb.timesheet.service.TimesheetService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-
+@Tag(name = "Projects", description = "Projects API")
 @RestController
 @RequestMapping("/projects")
 public class ProjectController {
@@ -23,9 +26,9 @@ public class ProjectController {
     this.projectService = projectService;
     this.timesheetService = timesheetService;
   }
-
+  @Operation(summary = "Get project by id", description = "Get project by id")
   @GetMapping("/{id}")
-  public ResponseEntity<Project> get(@PathVariable Long id) {
+  public ResponseEntity<Project> get(@PathVariable @Parameter(description = "Project id", required = true) Long id) {
     return projectService.findById(id)
       .map(ResponseEntity::ok)
       .orElseGet(() -> ResponseEntity.notFound().build());
