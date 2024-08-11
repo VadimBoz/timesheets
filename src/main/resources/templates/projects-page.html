@@ -33,7 +33,7 @@
     <tr th:each="project : ${projects}">
         <td><span th:text="${project.projectId}"></span></td>
         <td><span th:text="${project.projectName}"></span></td>
-        <td><span th:text="${project.listNameUsers}"></span></td>
+<!--        <td><span th:text="${project.listNameUsers}"></span></td>-->
         <td><a th:href="@{'/home/projects/{id}'(id=${project.projectId})}">Перейти к записи</a></td>
     </tr>
     </tbody>

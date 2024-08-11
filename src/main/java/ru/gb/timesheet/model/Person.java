@@ -2,8 +2,6 @@ package ru.gb.timesheet.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,6 +21,7 @@ public class Person {
     private String name;
     private String surname;
     private String post;
+    private String password;
 
 //    @ManyToMany(mappedBy = "persons", fetch = FetchType.EAGER)
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
@@ -33,6 +32,36 @@ public class Person {
     )
 //    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id" )
     private Set<Timesheet> timesheets = new HashSet<>();
+
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "person_role",
+            joinColumns = { @JoinColumn(name = "person_id", referencedColumnName="id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName="id") }
+    )
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id" )
+    private Set<Role> roleSet = new HashSet<>();
+
+
+    public Set<Role> getRoles() {
+        return roleSet;
+    }
+
+    public void setRoles(Set<Role> rolesSet) {
+        this.roleSet = roleSet;
+    }
+
+    public void addRole(Role role) {
+        this.roleSet.add(role);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -85,6 +114,7 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", post='" + post + '\'' +
                 ", timesheets=" + timesheets +
+                ", rolesSet=" + roleSet +
                 '}';
     }
 }

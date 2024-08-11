@@ -29,7 +29,7 @@ public class PersonService {
     }
 
     public Optional<Person> findById(Long id) {
-        return personRepository.findById((id));
+        return personRepository.findById(id);
     }
 
 //    public Optional<Project> getByName(String name) {
