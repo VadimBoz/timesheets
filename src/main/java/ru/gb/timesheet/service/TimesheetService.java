@@ -1,6 +1,8 @@
 package ru.gb.timesheet.service;
 
 import org.springframework.stereotype.Service;
+import ru.gb.timesheet.aspect.Recover;
+import ru.gb.timesheet.aspect.Timer;
 import ru.gb.timesheet.model.Timesheet;
 import ru.gb.timesheet.repository.ProjectRepository;
 import ru.gb.timesheet.repository.TimesheetRepository;
@@ -11,6 +13,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
+
+@Timer
 @Service // то же самое, что и Component
 public class TimesheetService {
 
@@ -23,7 +27,7 @@ public class TimesheetService {
       this.projectRepository = projectRepository;
 
   }
-
+  @Recover
   public Optional<Timesheet> getById(Long id) {
     return timesheetRepository.findById(id);
   }

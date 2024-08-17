@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.timesheet.aspect.Recover;
 import ru.gb.timesheet.model.Timesheet;
 import ru.gb.timesheet.service.TimesheetService;
 
@@ -44,9 +45,11 @@ public class TimesheetController {
           @ApiResponse(description = "неудачное выполнение", responseCode = "404", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
           @ApiResponse(description = "неудачное выполнение", responseCode = "500", content = @Content(schema = @Schema(implementation = Void.class))),
           })
+  @Recover
   @GetMapping("/{id}")
-  public ResponseEntity<Timesheet> get(@Parameter(description = "id проекта") @PathVariable Long id) {
-    Timesheet timesheet = service.getById(id)
+  public ResponseEntity<Timesheet> get(@Parameter(description = "id проекта") @PathVariable String id) {
+    if (!id.matches("\\d")) throw new IllegalArgumentException();
+    Timesheet timesheet = service.getById(Long.parseLong(id))
             .orElseThrow(() -> new NoSuchElementException("элемент не найден"));
     return ResponseEntity.ok(timesheet);
 //      .map(ResponseEntity::ok)

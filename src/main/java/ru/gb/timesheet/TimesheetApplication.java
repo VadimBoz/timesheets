@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import ru.gb.timesheet.aspect.Recover;
 import ru.gb.timesheet.model.Person;
 import ru.gb.timesheet.model.Project;
 import ru.gb.timesheet.model.Role;

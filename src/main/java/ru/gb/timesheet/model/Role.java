@@ -55,7 +55,7 @@ public class Role {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", personSet=" + personSet.stream().map(u -> u.getName()).toList() +
+                ", personSet=" + personSet.stream().map(Person::getName).toList() +
                 '}';
     }
 }

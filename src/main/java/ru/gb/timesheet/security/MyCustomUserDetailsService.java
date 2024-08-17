@@ -27,8 +27,8 @@ public class MyCustomUserDetailsService implements UserDetailsService {
         Person person = personRepository
                 .findByName(personName)
                 .orElseThrow(() -> new UsernameNotFoundException("пользователь не найден" + personName));
-        List<Role> userRoles  = person.getRoles().stream().toList();
-        List<SimpleGrantedAuthority> rolesSG = userRoles.stream()
+//        List<Role> userRoles  = person.getRoles().stream().toList();
+        List<SimpleGrantedAuthority> rolesSG = person.getRoles().stream()
                                     .map(u -> new SimpleGrantedAuthority(u.getName())).toList();
         return new User(person.getName(), person.getPassword(), rolesSG);
     }

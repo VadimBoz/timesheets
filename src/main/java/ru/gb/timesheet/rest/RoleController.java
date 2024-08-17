@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.timesheet.aspect.Recover;
 import ru.gb.timesheet.model.Project;
 import ru.gb.timesheet.model.Role;
 import ru.gb.timesheet.model.Timesheet;
@@ -16,6 +17,7 @@ import ru.gb.timesheet.service.TimesheetService;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Recover
 @Tag(name = "Roles", description = "Roles API")
 @RestController
 @RequestMapping("/roles")
@@ -34,14 +36,17 @@ public class RoleController {
         return ResponseEntity.ok(roleService.findAll());
     }
 
-
+    @Recover
     @Operation(summary = "Get role by id", description = "Get role by id")
     @GetMapping("/{id}")
-    public ResponseEntity<Role> get(@PathVariable @Parameter(description = "Role id", required = true) Long id) {
-        return roleService.findById(id)
+    public ResponseEntity<Role> get(@PathVariable @Parameter(description = "Role id", required = true) String id) {
+//        throw new IllegalArgumentException();
+        if (!id.matches("\\d")) throw new IllegalArgumentException();
+        return roleService.findById(Long.parseLong(id))
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
 
 
